@@ -2,14 +2,32 @@
   "name": "koop-provider-csv",
   "version": "1.0.0",
   "description": "Koop provider for CSV",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test/**/*.test.js"
   },
   "author": "Haoliang Yu",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^6.1.0",
     "koop": "^3.10.1",
     "node-fetch": "^2.2.0"
+  },
+  "devDependencies": {
+    "fetch-mock": "^7.2.5",
+    "prettier": "^1.15.2",
+    "proxyquire": "^2.1.0",
+    "tape": "^4.9.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

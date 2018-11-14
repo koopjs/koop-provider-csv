@@ -6,6 +6,8 @@
   Documentation: http://koopjs.github.io/docs/specs/provider/
 */
 
+require('dotenv').config()
+
 // Define the provider path
 // /:name/:hosts?/:disableIdParam?/FeatureServer/:layer/:method
 // e.g. /sample/FeatureServer/0/query
@@ -17,7 +19,7 @@ const provider = {
   Controller: require('./controller'),
   Model: require('./model'),
   routes: require('./routes'),
-  version: require('./package.json').version
+  version: require('../package.json').version
 }
 
 module.exports = provider
