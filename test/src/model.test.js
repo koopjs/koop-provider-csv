@@ -17,8 +17,9 @@ dotEnv.config({
 })
 
 const csv = fs.readFileSync(path.join(__dirname, '../fixtures/points.csv'), 'utf-8')
+const csvWithQuotes = fs.readFileSync(path.join(__dirname, '../fixtures/points-with-quotes.csv'), 'utf-8')
 
-test('should properly fetch from the API and translate features', t => {
+test('it should properly fetch from the API and translate features', t => {
   const fetch = fetchMock
     .sandbox()
     .mock('points.csv', csv)
@@ -38,6 +39,25 @@ test('should properly fetch from the API and translate features', t => {
     t.equal(feature.geometry.type, 'Point', 'creates point geometry')
     t.deepEqual(feature.geometry.coordinates, [-137,45.67], 'translates geometry correctly')
     t.ok(feature.properties, 'creates attributes')
+    t.equal(feature.properties.id, '1', 'translates id field correctly')
+    t.equal(feature.properties.density, '2.32', 'translates density field correctly')
+
+    t.end()
+  })
+})
+
+test('it should trim double quotes from the csv values', t => {
+  const fetch = fetchMock
+    .sandbox()
+    .mock('points.csv', csvWithQuotes)
+
+  const Model = proxyquire('../../src/model', {
+    'node-fetch': fetch
+  })
+  const model = new Model()
+
+  model.getData({}, (err, geojson) => {
+    const feature = geojson.features[0]
     t.equal(feature.properties.id, '1', 'translates id field correctly')
     t.equal(feature.properties.density, '2.32', 'translates density field correctly')
 
