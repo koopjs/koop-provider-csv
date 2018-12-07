@@ -4,14 +4,16 @@
   "description": "Koop provider for CSV",
   "main": "src/index.js",
   "scripts": {
-    "test": "tape test/**/*.test.js"
+    "test": "tape test/**/*.test.js",
+    "start": "node src/server.js"
   },
   "author": "Haoliang Yu",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^6.1.0",
     "koop": "^3.10.1",
-    "node-fetch": "^2.2.0"
+    "node-fetch": "^2.2.0",
+    "split-lines": "^2.0.0"
   },
   "devDependencies": {
     "fetch-mock": "^7.2.5",

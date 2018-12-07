@@ -23,8 +23,8 @@ if (process.env.DEPLOY === 'export') {
   For more docs visit: https://koopjs.github.io/docs/specs/provider/
   To find providers visit: https://www.npmjs.com/search?q=koop+provider
 
-  Try it out in your browser: http://localhost:${port}/sample/FeatureServer/0/query
-  Or on the command line: curl --silent http://localhost:${port}/sample/FeatureServer/0/query?returnCountOnly=true
+  Try it out in your browser: http://localhost:${port}/csv/FeatureServer/0/query
+  Or on the command line: curl --silent http://localhost:${port}/csv/FeatureServer/0/query?returnCountOnly=true
 
   Press control + c to exit
   `

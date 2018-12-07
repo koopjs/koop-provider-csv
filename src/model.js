@@ -7,7 +7,7 @@
 */
 
 const fetch = require('node-fetch');
-const os = require("os");
+const splitLines = require('split-lines');
 
 function Model (koop) {}
 
@@ -27,13 +27,21 @@ function translate (input) {
   const columnX = process.env.COLUMN_X
   const columnY = process.env.COLUMN_Y
   const delimiter = process.env.DELIMITER || ','
-  const rows = input.trim().split(os.EOL)
-  const columns = rows[0].split(delimiter)
+  const rows = splitLines(input.trim())
+  const columns =  rows[0].split(delimiter).map(formatString)
 
   return {
     type: 'FeatureCollection',
     features: rows.slice(1).map((row) => formatFeature(row, columns, { x: columnX, y: columnY }, delimiter))
   }
+}
+
+function formatString (value) {
+  if (value.startsWith('"') && value.endsWith('"')) {
+    return value.slice(1, value.length - 1)
+  }
+
+  return value
 }
 
 function formatFeature (row, columns, coordColumns, delimiter) {
@@ -47,7 +55,7 @@ function formatFeature (row, columns, coordColumns, delimiter) {
     }
   }
 
-  const values = row.split(delimiter)
+  const values = row.split(delimiter).map(formatString)
 
   for (let i = 0; i < columns.length; i++) {
     if (columns[i] === coordColumns.x) {
