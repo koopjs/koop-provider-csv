@@ -19,7 +19,7 @@ if (process.env.DEPLOY === 'export') {
 
   const message = `
 
-  Koop Sample Provider listening on ${port}
+  Koop CSV Provider listening on ${port}
   For more docs visit: https://koopjs.github.io/docs/specs/provider/
   To find providers visit: https://www.npmjs.com/search?q=koop+provider
 
