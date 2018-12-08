@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/koop-provider-csv.svg)](https://badge.fury.io/js/koop-provider-csv)[![Build Status](https://travis-ci.org/haoliangyu/koop-provider-csv.svg?branch=master)](https://travis-ci.org/haoliangyu/koop-provider-csv)
+[![npm version](https://badge.fury.io/js/koop-provider-csv.svg)](https://badge.fury.io/js/koop-provider-csv) [![Build Status](https://travis-ci.org/haoliangyu/koop-provider-csv.svg?branch=master)](https://travis-ci.org/haoliangyu/koop-provider-csv)
 
 # koop-provider-csv
 
