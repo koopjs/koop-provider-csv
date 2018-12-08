@@ -16,13 +16,18 @@ dotEnv.config({
   path: path.join(__dirname, '../.env.test')
 })
 
-const csv = fs.readFileSync(path.join(__dirname, '../fixtures/points.csv'), 'utf-8')
-const csvWithQuotes = fs.readFileSync(path.join(__dirname, '../fixtures/points-with-quotes.csv'), 'utf-8')
+test('it should send a request for a URL', t => {
+  t.plan(3)
 
-test('it should properly fetch from the API and translate features', t => {
+  dotEnv.config({
+    path: path.join(__dirname, '../.env.test')
+  })
+
+  const csv = fs.readFileSync(path.join(__dirname, '../fixtures/points.csv'), 'utf-8')
+
   const fetch = fetchMock
     .sandbox()
-    .mock('points.csv', csv)
+    .mock('http://my-site.com/points.csv', csv)
 
   const Model = proxyquire('../../src/model', {
     'node-fetch': fetch
@@ -33,34 +38,24 @@ test('it should properly fetch from the API and translate features', t => {
     t.error(err, 'no error')
     t.equal(geojson.type, 'FeatureCollection', 'creates a feature collection object')
     t.ok(geojson.features, 'has features')
-
-    const feature = geojson.features[0]
-    t.equal(feature.type, 'Feature', 'has proper type')
-    t.equal(feature.geometry.type, 'Point', 'creates point geometry')
-    t.deepEqual(feature.geometry.coordinates, [-137,45.67], 'translates geometry correctly')
-    t.ok(feature.properties, 'creates attributes')
-    t.equal(feature.properties.id, '1', 'translates id field correctly')
-    t.equal(feature.properties.density, '2.32', 'translates density field correctly')
-
-    t.end()
   })
 })
 
-test('it should trim double quotes from the csv values', t => {
-  const fetch = fetchMock
-    .sandbox()
-    .mock('points.csv', csvWithQuotes)
+test('it should load the local file for a file path', t => {
+  t.plan(3)
 
-  const Model = proxyquire('../../src/model', {
-    'node-fetch': fetch
+  dotEnv.config({
+    path: path.join(__dirname, '../.env.test')
   })
+
+  process.env.CSV_SOURCE = path.join(__dirname, '../fixtures/points.csv')
+
+  const Model = require('../../src/model')
   const model = new Model()
 
   model.getData({}, (err, geojson) => {
-    const feature = geojson.features[0]
-    t.equal(feature.properties.id, '1', 'translates id field correctly')
-    t.equal(feature.properties.density, '2.32', 'translates density field correctly')
-
-    t.end()
+    t.error(err, 'no error')
+    t.equal(geojson.type, 'FeatureCollection', 'creates a feature collection object')
+    t.ok(geojson.features, 'has features')
   })
 })
