@@ -4,14 +4,14 @@
 
 A simple CSV provider for [Koop](http://koopjs.github.io/)
 
-This provider works with any API that exports a CSV file with coordinate columns (x and y).
+This provider works with a CSV file with coordinate columns (x and y).
 
 ## Configuration
 
 Three environment variables are required to use the provider:
-* **URL**: the API URL that exports the CSV file
-* **COLUMN_X**: the column name for coordinate x
-* **COLUMN_Y**: the column name for coordinate y
+* **CSV_SOURCE**: the source path of the CSV file. It could be a local file path or a URL to the CSV content.
+* **COLUMN_X**: the column name for coordinate x (longitude)
+* **COLUMN_Y**: the column name for coordinate y (latitude)
 
 Two optional environment variables can be added:
 * DELIMITER: CSV delimiter, default to be `,`
@@ -33,7 +33,6 @@ During development you can output error callstack with
 
 - `NODE_ENV=test npm start`
 
-
 ## Deploy to AWS Lambda
 
 Koop providers can be quickly deployed and scaled with AWS Lambda. To first create the service:
@@ -52,9 +51,3 @@ By default, AWS Lambda has a 3 second timeout and only 128MB memory. If your Koo
 
 - `docker build -t koop-provider-sample .`
 - `docker run -it -p 8080:8080 koop-provider-sample`
-
-## Publish to npm
-
-- run `npm init` and update the fields
-  - Choose a name like `koop-provider-foo`
-- run `npm publish`
