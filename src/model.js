@@ -27,7 +27,7 @@ Model.prototype.getData = function (req, callback) {
         callback(null, geojson)
       })
       .catch(err => callback(err))
-  } else if (source.endsWith('.csv')) {
+  } else if (source.toLowerCase().endsWith('.csv')) {
     // this is a file path
     fs.readFile(source, 'utf-8', (err, data) => {
       if (err) {

@@ -41,7 +41,7 @@ test('it should send a request for a URL', t => {
   })
 })
 
-test('it should load the local file for a file path', t => {
+test('it should load the local file for a file path with .csv', t => {
   t.plan(3)
 
   dotEnv.config({
@@ -49,6 +49,25 @@ test('it should load the local file for a file path', t => {
   })
 
   process.env.CSV_SOURCE = path.join(__dirname, '../fixtures/points.csv')
+
+  const Model = require('../../src/model')
+  const model = new Model()
+
+  model.getData({}, (err, geojson) => {
+    t.error(err, 'no error')
+    t.equal(geojson.type, 'FeatureCollection', 'creates a feature collection object')
+    t.ok(geojson.features, 'has features')
+  })
+})
+
+test('it should load the local file for a file path with .CSV', t => {
+  t.plan(3)
+
+  dotEnv.config({
+    path: path.join(__dirname, '../.env.test')
+  })
+
+  process.env.CSV_SOURCE = path.join(__dirname, '../fixtures/points.CSV')
 
   const Model = require('../../src/model')
   const model = new Model()
