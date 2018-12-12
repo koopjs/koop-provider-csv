@@ -1,0 +1,10 @@
+{
+  "source": "example.csv",
+  "sourceName": "csv",
+  "columns": {
+    "x": "longitude",
+    "y": "latitude"
+  },
+  "delimiter": ",",
+  "port": 8080
+}
