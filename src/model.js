@@ -6,6 +6,7 @@
   Documentation: http://koopjs.github.io/docs/specs/provider/
 */
 
+const config = require('config');
 const fs = require('fs')
 const fetch = require('node-fetch');
 const isUrl = require('is-url-superb');
@@ -16,14 +17,19 @@ function Model (koop) {}
 // Public function to return data from the
 // Return: GeoJSON FeatureCollection
 Model.prototype.getData = function (req, callback) {
-  const source = process.env.CSV_SOURCE
+  const source = config.get('source')
+  const parseConfig = {
+    columnX: config.get('columns.x'),
+    columnY: config.get('columns.y'),
+    delimiter: config.get('delimiter')
+  }
 
   if (isUrl(source)) {
     // this is a network URL
     fetch(source)
       .then((res) => res.text())
       .then((content) => {
-        const geojson = translate(content)
+        const geojson = translate(content, parseConfig)
         callback(null, geojson)
       })
       .catch(err => callback(err))
@@ -33,7 +39,7 @@ Model.prototype.getData = function (req, callback) {
       if (err) {
         callback(err)
       } else {
-        const geojson = translate(data)
+        const geojson = translate(data, parseConfig)
         callback(null, geojson)
       }
     })

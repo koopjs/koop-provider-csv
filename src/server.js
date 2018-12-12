@@ -2,6 +2,8 @@
 process.on('SIGINT', () => process.exit(0))
 process.on('SIGTERM', () => process.exit(0))
 
+const config = require('config')
+
 // Initialize Koop
 const Koop = require('koop')
 const koop = new Koop()
@@ -14,7 +16,7 @@ if (process.env.DEPLOY === 'export') {
   module.exports = koop.server
 } else {
   // Set port for configuration or fall back to default
-  const port = process.env.PORT || 8080
+  const port = config.get('port') || 8080
   koop.server.listen(port)
 
   const message = `

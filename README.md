@@ -8,16 +8,30 @@ This provider works with a CSV file with coordinate columns (x and y).
 
 ## Configuration
 
-Three environment variables are required to use the provider:
-* **CSV_SOURCE**: the source path of the CSV file. It could be a local file path or a URL to the CSV content.
-* **COLUMN_X**: the column name for coordinate x (longitude)
-* **COLUMN_Y**: the column name for coordinate y (latitude)
+This provider uses [config](https://github.com/lorenwest/node-config) for configuration. The configuration files are within the `config` folder.
 
-Two optional environment variables can be added:
-* DELIMITER: CSV delimiter, default to be `,`
-* PORT: Koop application port
+A configuration should look like this:
 
-See `.env.example` as an example
+``` javascript
+{
+  // required:
+  // 1. CSV source path, a local file path or a URL
+  "source": "example.csv",
+  // 2. service name
+  "sourceName": "csv",
+  // 3. coordinate column names
+  "columns": {
+    "x": "longitude",
+    "y": "latitude"
+  },
+  // optional:
+  // 1. delimiter
+  "delimiter": ",",
+  // 2. test server port
+  "port": 8080
+}
+
+```
 
 ## Test it out
 Run server:

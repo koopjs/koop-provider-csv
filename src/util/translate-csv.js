@@ -1,9 +1,6 @@
 const splitLines = require('split-lines');
 
-function translate (csv) {
-  const columnX = process.env.COLUMN_X
-  const columnY = process.env.COLUMN_Y
-  const delimiter = process.env.DELIMITER || ','
+function translate (csv, { columnX, columnY, delimiter = ',' }) {
   const rows = splitLines(csv.trim())
   const columns =  rows[0].split(delimiter).map(formatString)
 

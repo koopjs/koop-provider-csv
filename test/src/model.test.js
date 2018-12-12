@@ -8,20 +8,17 @@
 const test = require('tape')
 const proxyquire = require('proxyquire')
 const fetchMock = require('fetch-mock')
-const dotEnv = require('dotenv')
 const fs = require('fs')
 const path = require('path')
-
-dotEnv.config({
-  path: path.join(__dirname, '../.env.test')
-})
 
 test('it should send a request for a URL', t => {
   t.plan(3)
 
-  dotEnv.config({
-    path: path.join(__dirname, '../.env.test')
-  })
+  const config = {
+    'source': 'http://my-site.com/points.csv',
+    'column.x': 'longitude',
+    'column.y': 'latitude'
+  }
 
   const csv = fs.readFileSync(path.join(__dirname, '../fixtures/points.csv'), 'utf-8')
 
@@ -30,7 +27,12 @@ test('it should send a request for a URL', t => {
     .mock('http://my-site.com/points.csv', csv)
 
   const Model = proxyquire('../../src/model', {
-    'node-fetch': fetch
+    'node-fetch': fetch,
+    'config': {
+      get (path) {
+        return config[path]
+      }
+    }
   })
   const model = new Model()
 
@@ -44,13 +46,19 @@ test('it should send a request for a URL', t => {
 test('it should load the local file for a file path with .csv', t => {
   t.plan(3)
 
-  dotEnv.config({
-    path: path.join(__dirname, '../.env.test')
+  const config = {
+    'source': path.join(__dirname, '../fixtures/points.csv'),
+    'column.x': 'longitude',
+    'column.y': 'latitude'
+  }
+
+  const Model = proxyquire('../../src/model', {
+    'config': {
+      get (path) {
+        return config[path]
+      }
+    }
   })
-
-  process.env.CSV_SOURCE = path.join(__dirname, '../fixtures/points.csv')
-
-  const Model = require('../../src/model')
   const model = new Model()
 
   model.getData({}, (err, geojson) => {
@@ -63,13 +71,19 @@ test('it should load the local file for a file path with .csv', t => {
 test('it should load the local file for a file path with .CSV', t => {
   t.plan(3)
 
-  dotEnv.config({
-    path: path.join(__dirname, '../.env.test')
+  const config = {
+    'source': path.join(__dirname, '../fixtures/points.CSV'),
+    'column.x': 'longitude',
+    'column.y': 'latitude'
+  }
+
+  const Model = proxyquire('../../src/model', {
+    'config': {
+      get (path) {
+        return config[path]
+      }
+    }
   })
-
-  process.env.CSV_SOURCE = path.join(__dirname, '../fixtures/points.CSV')
-
-  const Model = require('../../src/model')
   const model = new Model()
 
   model.getData({}, (err, geojson) => {

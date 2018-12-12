@@ -7,7 +7,10 @@ test('it should convert a CSV string to a geojson', (t) => {
   t.plan(8)
 
   const csv = fs.readFileSync(path.join(__dirname, '../../fixtures/points.csv'), 'utf-8')
-  const geojson = translate(csv)
+  const geojson = translate(csv, {
+    columnX: 'longitude',
+    columnY: 'latitude'
+  })
 
   t.equal(geojson.type, 'FeatureCollection', 'creates a feature collection object')
   t.ok(geojson.features, 'has features')
@@ -25,7 +28,10 @@ test('it should remove double quotes', (t) => {
   t.plan(2)
 
   const csvWithQuotes = fs.readFileSync(path.join(__dirname, '../../fixtures/points-with-quotes.csv'), 'utf-8')
-  const geojson = translate(csvWithQuotes)
+  const geojson = translate(csvWithQuotes, {
+    columnX: 'longitude',
+    columnY: 'latitude'
+  })
 
   const feature = geojson.features[0]
   t.equal(feature.properties.id, '1', 'translates id field correctly')
