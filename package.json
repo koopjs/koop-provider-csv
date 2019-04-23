@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "config": "^3.0.0",
+    "csv-reader": "^1.0.3",
     "is-url-superb": "^2.0.0",
     "koop": "^3.10.1",
     "node-fetch": "^2.2.0",

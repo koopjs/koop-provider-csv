@@ -8,6 +8,7 @@
 
 const config = require('config');
 const fs = require('fs')
+const CsvReadableStream = require('csv-reader');
 const fetch = require('node-fetch');
 const isUrl = require('is-url-superb');
 const translate = require('./util/translate-csv')
@@ -21,7 +22,7 @@ Model.prototype.getData = function (req, callback) {
   const parseConfig = {
     columnX: config.get('columns.x'),
     columnY: config.get('columns.y'),
-    delimiter: config.get('delimiter')
+    metadata: config.get('metadata'),
   }
 
   if (isUrl(source)) {
@@ -34,15 +35,26 @@ Model.prototype.getData = function (req, callback) {
       })
       .catch(err => callback(err))
   } else if (source.toLowerCase().endsWith('.csv')) {
+    const inputStream = fs.createReadStream(source, 'utf8');
     // this is a file path
-    fs.readFile(source, 'utf-8', (err, data) => {
-      if (err) {
-        callback(err)
-      } else {
-        const geojson = translate(data, parseConfig)
-        callback(null, geojson)
-      }
-    })
+    const csv = [];
+    inputStream
+        .pipe(CsvReadableStream({
+            parseNumbers: true,
+            parseBooleans: true,
+            trim: true,
+            delimiter: parseConfig.delimiter
+        }))
+        .on('data', function (row) {
+            csv.push(row);
+        },(err) => {if(err) callback(err)})
+        .on('end', function () {
+            // console.log('No more rows!');
+            // console.log("csv=",JSON.stringify(csv, null, 4));
+            // return
+            const geojson = translate(csv, parseConfig)
+            callback(null, geojson)
+        },(err) => {if(err) callback(err)});
   } else {
     callback(new Error(`Unrecognized CSV source ${source}`))
   }
