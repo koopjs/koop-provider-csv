@@ -1,9 +1,14 @@
 {
-  "source": "example.csv",
+  "source": "../twitter-rt-service/data/tweets.csv",
+  "metadata":{
+    "name": "Tweets layer",
+    "description": "From twitter service",
+    "idField": "ID_str"
+  },
   "sourceName": "csv",
   "columns": {
-    "x": "longitude",
-    "y": "latitude"
+    "x": "lon",
+    "y": "lat"
   },
   "delimiter": ",",
   "port": 8080
