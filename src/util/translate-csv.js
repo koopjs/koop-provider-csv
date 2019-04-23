@@ -1,28 +1,24 @@
 const splitLines = require("split-lines");
 
-function translate(csv, { columnX, columnY, delimiter = "," }) {
-  const rows = splitLines(csv.trim());
-  const columns = rows[0].split(delimiter).map(formatString);
+function translate(csv, { columnX, columnY, metadata }) {
+  const columns = csv[0];
 
   return {
     type: "FeatureCollection",
-    features: rows
+    features: csv
       .slice(1)
       .map(row =>
-        formatFeature(row, columns, { x: columnX, y: columnY }, delimiter)
-      )
+        formatFeature(row, columns, { x: columnX, y: columnY }, metadata.idField)
+    ),
+    metadata: {
+        name: metadata.name, // Get the workbook name before ! symbol and set as layer name
+        description: metadata.description,
+        idField: metadata.idField,
+    }
   };
 }
 
-function formatString(value) {
-  if (value.startsWith('"') && value.endsWith('"')) {
-    return value.slice(1, value.length - 1);
-  }
-
-  return value;
-}
-
-function formatFeature(row, columns, coordColumns, delimiter) {
+function formatFeature(values, columns, coordColumns, idField) {
   // Most of what we need to do here is extract the longitude and latitude
   const feature = {
     type: "Feature",
@@ -33,18 +29,27 @@ function formatFeature(row, columns, coordColumns, delimiter) {
     }
   };
 
-  const values = row.split(delimiter).map(formatString);
-
   for (let i = 0; i < columns.length; i++) {
     if (columns[i] === coordColumns.x) {
       feature.geometry.coordinates.unshift(parseFloat(values[i]));
     } else if (columns[i] === coordColumns.y) {
       feature.geometry.coordinates.push(parseFloat(values[i]));
     } else {
-      feature.properties[columns[i]] = values[i];
+      if(columns[i] == idField){
+          // Ensure idField is in the valid range
+          if(values[i] > 2147483647){
+              feature.properties[columns[i]] = parseInt(values[i] - Math.pow(10, (10 - values[i].toString().length) * -1));
+              while(feature.properties[columns[i]] > 2147483647){
+                  feature.properties[columns[i]] = parseInt(feature.properties[columns[i]]/2);
+              }
+          }else{
+              feature.properties[columns[i]] = values[i]
+          }
+      }else{
+          feature.properties[columns[i]] = values[i];
+      }
     }
   }
-
   return feature;
 }
 
