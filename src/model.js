@@ -49,9 +49,6 @@ Model.prototype.getData = function (req, callback) {
             csv.push(row);
         },(err) => {if(err) callback(err)})
         .on('end', function () {
-            // console.log('No more rows!');
-            // console.log("csv=",JSON.stringify(csv, null, 4));
-            // return
             const geojson = translate(csv, parseConfig)
             callback(null, geojson)
         },(err) => {if(err) callback(err)});
