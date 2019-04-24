@@ -24,6 +24,12 @@ A configuration should look like this:
     "x": "longitude",
     "y": "latitude"
   },
+  // 4. ArcGIS service metadata
+  "metadata":{
+    "name": "Tweets layer",
+    "description": "From twitter service",
+    "idField": "ID_str"
+  },
   // optional:
   // 1. delimiter
   "delimiter": ",",
