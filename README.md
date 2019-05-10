@@ -1,6 +1,6 @@
-[![npm version](https://badge.fury.io/js/koop-provider-csv.svg)](https://badge.fury.io/js/koop-provider-csv) [![Build Status](https://travis-ci.org/haoliangyu/koop-provider-csv.svg?branch=master)](https://travis-ci.org/haoliangyu/koop-provider-csv)
-
 # koop-provider-csv
+
+[![npm version](![npm](https://img.shields.io/npm/v/koop-provider-csv.svg))](https://badge.fury.io/js/koop-provider-csv) [![Build Status](https://travis-ci.org/haoliangyu/koop-provider-csv.svg?branch=master)](https://travis-ci.org/haoliangyu/koop-provider-csv)
 
 A simple CSV provider for [Koop](http://koopjs.github.io/)
 
