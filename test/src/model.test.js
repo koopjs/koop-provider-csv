@@ -16,8 +16,13 @@ test("it should send a request for a URL", t => {
 
   const config = {
     source: "http://my-site.com/points.csv",
-    "column.x": "longitude",
-    "column.y": "latitude"
+    columns: {
+      x: "longitude",
+      y: "latitude"
+    },
+    metadata: {
+      idField: "id"
+    }
   };
 
   const csv = fs.readFileSync(
@@ -29,11 +34,7 @@ test("it should send a request for a URL", t => {
 
   const Model = proxyquire("../../src/model", {
     "node-fetch": fetch,
-    config: {
-      get(path) {
-        return config[path];
-      }
-    }
+    config
   });
   const model = new Model();
 
@@ -53,16 +54,17 @@ test("it should load the local file for a file path with .csv", t => {
 
   const config = {
     source: path.join(__dirname, "../fixtures/points.csv"),
-    "column.x": "longitude",
-    "column.y": "latitude"
+    columns: {
+      x: "longitude",
+      y: "latitude"
+    },
+    metadata: {
+      idField: "id"
+    }
   };
 
   const Model = proxyquire("../../src/model", {
-    config: {
-      get(path) {
-        return config[path];
-      }
-    }
+    config
   });
   const model = new Model();
 
@@ -82,16 +84,17 @@ test("it should load the local file for a file path with .CSV", t => {
 
   const config = {
     source: path.join(__dirname, "../fixtures/points.CSV"),
-    "column.x": "longitude",
-    "column.y": "latitude"
+    columns: {
+      x: "longitude",
+      y: "latitude"
+    },
+    metadata: {
+      idField: "id"
+    }
   };
 
   const Model = proxyquire("../../src/model", {
-    config: {
-      get(path) {
-        return config[path];
-      }
-    }
+    config
   });
   const model = new Model();
 
