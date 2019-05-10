@@ -15,13 +15,15 @@ test("it should send a request for a URL", t => {
   t.plan(3);
 
   const config = {
-    source: "http://my-site.com/points.csv",
-    columns: {
-      x: "longitude",
-      y: "latitude"
-    },
-    metadata: {
-      idField: "id"
+    "koop-provider-csv": {
+      source: "http://my-site.com/points.csv",
+      columns: {
+        x: "longitude",
+        y: "latitude"
+      },
+      metadata: {
+        idField: "id"
+      }
     }
   };
 
@@ -53,13 +55,15 @@ test("it should load the local file for a file path with .csv", t => {
   t.plan(3);
 
   const config = {
-    source: path.join(__dirname, "../fixtures/points.csv"),
-    columns: {
-      x: "longitude",
-      y: "latitude"
-    },
-    metadata: {
-      idField: "id"
+    "koop-provider-csv": {
+      source: path.join(__dirname, "../fixtures/points.csv"),
+      columns: {
+        x: "longitude",
+        y: "latitude"
+      },
+      metadata: {
+        idField: "id"
+      }
     }
   };
 
@@ -83,13 +87,15 @@ test("it should load the local file for a file path with .CSV", t => {
   t.plan(3);
 
   const config = {
-    source: path.join(__dirname, "../fixtures/points.CSV"),
-    columns: {
-      x: "longitude",
-      y: "latitude"
-    },
-    metadata: {
-      idField: "id"
+    "koop-provider-csv": {
+      source: path.join(__dirname, "../fixtures/points.CSV"),
+      columns: {
+        x: "longitude",
+        y: "latitude"
+      },
+      metadata: {
+        idField: "id"
+      }
     }
   };
 

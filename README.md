@@ -2,9 +2,9 @@
 
 [![npm](https://img.shields.io/npm/v/koop-provider-csv.svg)](https://www.npmjs.com/package/koop-provider-csv) [![Build Status](https://travis-ci.org/haoliangyu/koop-provider-csv.svg?branch=master)](https://travis-ci.org/haoliangyu/koop-provider-csv)
 
-A simple CSV provider for [Koop](http://koopjs.github.io/)
+A configurable and reusable CSV provider for [Koop](http://koopjs.github.io/)
 
-This provider works with a CSV file with coordinate columns (`x` and `y`).
+This provider can loads a CSV file having coordinate columns (`x` and `y`) from a local file path or a remote URL.
 
 ## Configuration
 
@@ -14,41 +14,47 @@ A configuration should look like this:
 
 ```javascript
 {
-  // required:
-  // CSV source path, a local file path or a URL
-  "source": "example.csv",
-  // service name
-  "sourceName": "csv",
-  // coordinate column names
-  "columns": {
-    "x": "longitude",
-    "y": "latitude"
-  },
-  // optional:
-  // delimiter
-  "delimiter": ",",
-  // test server port
-  "port": 8080,
-  // ArcGIS service metadata
-  "metadata":{
-    "name": "service name",
-    "description": "service description",
-    "idField": "id column name"
-  },
+  // namespace for this provider plugin
+  "koop-provider-csv": {
+    // required:
+    // CSV source path, a local file path or a URL
+    "source": "example.csv",
+    // service name
+    "sourceName": "csv",
+    // coordinate column names
+    "columns": {
+      "x": "longitude",
+      "y": "latitude"
+    },
+    // optional:
+    // delimiter
+    "delimiter": ",",
+    // ArcGIS service metadata
+    "metadata":{
+      "name": "service name",
+      "description": "service description",
+      "idField": "id column name"
+    }
+  }
 }
 
 ```
 
-## Test it out
+## Development
 
-Run server:
+This provider is created by [Koop CLI](https://github.com/koopjs/koop-cli) and it is recommended to use the CLI tool during your development.
 
-- `npm install`
-- `npm start`
+### Run dev server
 
-Tests:
+```bash
+koop serve
+```
 
-- `npm test`
+### Run test
+
+```bash
+koop test
+```
 
 ## License
 

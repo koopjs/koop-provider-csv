@@ -6,7 +6,7 @@
   Documentation: http://koopjs.github.io/docs/specs/provider/
 */
 
-const config = require("config");
+const koopConfig = require("config");
 const fs = require("fs");
 const CsvReadableStream = require("csv-reader");
 const fetch = require("node-fetch");
@@ -19,6 +19,7 @@ function Model(koop) {}
 // Public function to return data from the
 // Return: GeoJSON FeatureCollection
 Model.prototype.getData = function(req, callback) {
+  const config = koopConfig["koop-provider-csv"];
   const source = config.source;
 
   if (isUrl(source)) {
