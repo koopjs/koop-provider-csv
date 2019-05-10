@@ -1,9 +1,9 @@
 {
-  "source": "../twitter-rt-service/data/tweets.csv",
-  "metadata":{
-    "name": "Tweets layer",
-    "description": "From twitter service",
-    "idField": "ID_str"
+  "source": "./data.csv",
+  "metadata": {
+    "name": "My Data",
+    "description": "Data description",
+    "idField": "object_id"
   },
   "sourceName": "csv",
   "columns": {

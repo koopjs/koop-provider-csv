@@ -4,70 +4,52 @@
 
 A simple CSV provider for [Koop](http://koopjs.github.io/)
 
-This provider works with a CSV file with coordinate columns (x and y).
+This provider works with a CSV file with coordinate columns (`x` and `y`).
 
 ## Configuration
 
-This provider uses [config](https://github.com/lorenwest/node-config) for configuration. The configuration files are within the `config` folder.
+This provider uses [config](https://github.com/lorenwest/node-config) for configuration.
 
 A configuration should look like this:
 
-``` javascript
+```javascript
 {
   // required:
-  // 1. CSV source path, a local file path or a URL
+  // CSV source path, a local file path or a URL
   "source": "example.csv",
-  // 2. service name
+  // service name
   "sourceName": "csv",
-  // 3. coordinate column names
+  // coordinate column names
   "columns": {
     "x": "longitude",
     "y": "latitude"
   },
-  // 4. ArcGIS service metadata
-  "metadata":{
-    "name": "Tweets layer",
-    "description": "From twitter service",
-    "idField": "ID_str"
-  },
   // optional:
-  // 1. delimiter
+  // delimiter
   "delimiter": ",",
-  // 2. test server port
-  "port": 8080
+  // test server port
+  "port": 8080,
+  // ArcGIS service metadata
+  "metadata":{
+    "name": "service name",
+    "description": "service description",
+    "idField": "id column name"
+  },
 }
 
 ```
 
 ## Test it out
+
 Run server:
+
 - `npm install`
 - `npm start`
 
 Tests:
+
 - `npm test`
 
-### Development output callstack logs
+## License
 
-During development you can output error callstack with
-
-- `NODE_ENV=test npm start`
-
-## Deploy to AWS Lambda
-
-Koop providers can be quickly deployed and scaled with AWS Lambda. To first create the service:
-
-- `npm run lambda-create`
-
-To deploy code updates
-
-- `npm run lambda-update`
-
-### AWS Lambda configuration
-
-By default, AWS Lambda has a 3 second timeout and only 128MB memory. If your Koop provider uses a slower service, then you should change the AWS Lambda timeout to a higher time limit (e.g. 60 seconds) as well as add more memory (e.g. 512MB).
-
-## With Docker
-
-- `docker build -t koop-provider-sample .`
-- `docker run -it -p 8080:8080 koop-provider-sample`
+MIT
