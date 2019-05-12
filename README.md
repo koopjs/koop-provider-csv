@@ -6,6 +6,14 @@ A configurable and reusable [CSV](https://en.wikipedia.org/wiki/Comma-separated_
 
 This provider can load a CSV file from a local path or a remote endpoint. The provided CSV file must include columns of latitude and longitude coordinates.
 
+## Features
+
+- fully configurable
+- support multiple CSV sources
+- support local file path or remote endpoint
+- parse boolean and numeric automatically
+- stream processing
+
 ## Installation
 
 with npm
