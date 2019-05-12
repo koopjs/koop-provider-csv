@@ -1,26 +1,23 @@
 function translate(csv, config) {
   const columns = csv[0];
-  const metadata = config.metadata;
+  const metadata = config.metadata || {};
 
   if (metadata.idField && !columns.includes(metadata.idField)) {
     console.warn(`Specified ID field "${metadata.idField}" is not found.`);
   }
+
   return {
     type: "FeatureCollection",
     features: csv
       .slice(1)
       .map(row =>
-        formatFeature(row, columns, config.columns, metadata.idField)
+        formatFeature(row, columns, config.geometryColumns, metadata.idField)
       ),
-    metadata: {
-      name: metadata.name,
-      description: metadata.description,
-      idField: metadata.idField
-    }
+    metadata
   };
 }
 
-function formatFeature(values, columns, coordColumns, idField) {
+function formatFeature(values, columns, geometryColumns, idField) {
   // Most of what we need to do here is extract the longitude and latitude
   const feature = {
     type: "Feature",
@@ -32,16 +29,12 @@ function formatFeature(values, columns, coordColumns, idField) {
   };
 
   for (let i = 0; i < columns.length; i++) {
-    if (columns[i] === coordColumns.x) {
-      feature.geometry.coordinates.unshift(parseFloat(values[i]));
-    } else if (columns[i] === coordColumns.y) {
-      feature.geometry.coordinates.push(parseFloat(values[i]));
-    } else if (columns[i] == idField) {
-      if (isValidId(values[i])) {
-        feature.properties[columns[i]] = parseInt(values[i]);
-      } else {
-        console.warn(`Invalid ID value: ${values[i]}`);
-      }
+    if (columns[i] === geometryColumns.longitude) {
+      feature.geometry.coordinates.unshift(values[i]);
+    } else if (columns[i] === geometryColumns.latitude) {
+      feature.geometry.coordinates.push(values[i]);
+    } else if (columns[i] == idField && !isValidId(values[i])) {
+      console.warn(`Invalid ID value: ${values[i]}`);
     } else {
       feature.properties[columns[i]] = values[i];
     }

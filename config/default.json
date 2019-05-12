@@ -1,16 +1,18 @@
 {
   "koop-provider-csv": {
-    "source": "./data.csv",
-    "metadata": {
-      "name": "My Data",
-      "description": "Data description",
-      "idField": "object_id"
-    },
-    "sourceName": "csv",
-    "columns": {
-      "x": "lon",
-      "y": "lat"
-    },
-    "delimiter": ","
+    "sources": {
+      "my-data": {
+        "url": "",
+        "metadata": {
+          "name": "",
+          "description": "",
+          "idField": ""
+        },
+        "geometryColumns": {
+          "latitude": "",
+          "longitude": ""
+        }
+      }
+    }
   }
 }

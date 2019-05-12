@@ -6,13 +6,13 @@ test("it should convert parsed CSV to a geojson", t => {
 
   const csv = [
     ["id", "density", "latitude", "longitude"],
-    ["1", "2.32", "45.67", "-137"],
-    ["2", "5.674", "8.34", "67"]
+    [1, 2.32, 45.67, -137],
+    [2, 5.674, 8.34, 67]
   ];
   const geojson = translate(csv, {
-    columns: {
-      x: "longitude",
-      y: "latitude"
+    geometryColumns: {
+      longitude: "longitude",
+      latitude: "latitude"
     },
     metadata: {
       idField: "id"
@@ -38,7 +38,7 @@ test("it should convert parsed CSV to a geojson", t => {
   t.equal(feature.properties.id, 1, "translates id field correctly");
   t.equal(
     feature.properties.density,
-    "2.32",
+    2.32,
     "translates density field correctly"
   );
 });
