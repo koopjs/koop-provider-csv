@@ -15,6 +15,7 @@
     "csv"
   ],
   "dependencies": {
+    "autodetect-decoder-stream": "^1.0.3",
     "config": "^3.1.0",
     "csv-reader": "^1.0.3",
     "is-url-superb": "^3.0.0",
