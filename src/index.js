@@ -1,15 +1,15 @@
-const config = require("config")["koop-provider-csv"];
+const packageInfo = require("../package.json");
 
 // Define the provider path
 // /:name/:id(csv-source-id)/FeatureServer/:layer/:method
-// e.g. /csv/my-csv/FeatureServer/0/query
+// e.g. /koop-provider-csv/my-csv/FeatureServer/0/query
 const provider = {
   type: "provider",
-  name: config.name,
+  name: packageInfo.name,
+  version: packageInfo.version,
   hosts: false,
   disableIdParam: false,
-  Model: require("./model"),
-  version: require("../package.json").version
+  Model: require("./model")
 };
 
 module.exports = provider;

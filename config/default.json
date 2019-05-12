@@ -1,6 +1,5 @@
 {
   "koop-provider-csv": {
-    "name": "csv",
     "sources": {
       "my-data": {
         "url": "",
