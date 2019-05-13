@@ -11,7 +11,7 @@ This provider can load a CSV file from a local path or a remote endpoint. The pr
 - fully configurable
 - support multiple CSV sources
 - support local file path or remote endpoint
-- parse boolean and numeric automatically
+- parse boolean and numeric values automatically
 - stream processing
 
 ## Installation
