@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/koop-provider-csv.svg)](https://www.npmjs.com/package/koop-provider-csv) [![Build Status](https://travis-ci.org/haoliangyu/koop-provider-csv.svg?branch=master)](https://travis-ci.org/haoliangyu/koop-provider-csv)
 
-A configurable and reusable [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) provider for [Koop](http://koopjs.github.io/)
+A configurable and reusable [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) provider for [Koop](http://koopjs.github.io/), created with [Koop CLI](https://github.com/koopjs/koop-cli)
 
 This provider can load a CSV file from a local path or a remote endpoint. The provided CSV file must include columns of latitude and longitude coordinates.
 
@@ -80,20 +80,18 @@ See `config/example.json` for a full example.
 
 ## Development
 
-This provider is created by [Koop CLI](https://github.com/koopjs/koop-cli) and it is recommended to use the CLI tool during your development.
-
-### Run server
+### Run dev server
 
 ```bash
-koop serve
+$ npm start
 ```
 
-A dev server will be set up at `http://localhost:8080`.
+A dev server will be running at `http://localhost:8080`. By default, it will use with `NODE_ENV=dev` and the dev configuration `config/dev.json` should be created beforehand.
 
-### Run test
+### Run tests
 
 ```bash
-koop test
+$ npm test
 ```
 
 ## License

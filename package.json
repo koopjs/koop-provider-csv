@@ -4,7 +4,8 @@
   "description": "Koop provider for CSV",
   "main": "src/index.js",
   "scripts": {
-    "test": "tape 'test/**/*.test.js'"
+    "test": "tape 'test/**/*.test.js'",
+    "start": "cross-env NODE_ENV=dev koop serve -p 8080"
   },
   "author": "Haoliang Yu",
   "license": "MIT",
@@ -22,6 +23,8 @@
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
+    "@koopjs/cli": "^0.4.0",
+    "cross-env": "^5.2.0",
     "fetch-mock": "^7.3.3",
     "husky": "^2.3.0",
     "lint-staged": "^8.1.7",
