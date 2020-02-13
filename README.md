@@ -57,7 +57,7 @@ A configuration looks like this:
     // define one or multiple CSV sources
     "sources": {
       // a unique ID for each source, which is used in the query route
-      "my-data": {
+      "my-csv": {
         // [required] a file path or a URL for the source CSV
         "url": "path_to_csv",
         // [required] point coordinate columns
