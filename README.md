@@ -18,13 +18,15 @@ This provider can load a CSV file from a local path or a remote endpoint. The pr
 
 with npm
 
-```bash
+``` bash
 npm install koop-provider-csv
 ```
 
 with [Koop CLI](https://github.com/koopjs/koop-cli) for your Koop app
 
-`bash koop add koop-provider-csv`
+``` bash
+koop add provider koop-provider-csv
+```
 
 ## Usage
 
