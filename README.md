@@ -1,6 +1,6 @@
 # koop-provider-csv
 
-[![npm](https://img.shields.io/npm/v/koop-provider-csv.svg)](https://www.npmjs.com/package/koop-provider-csv) [![Build Status](https://travis-ci.org/haoliangyu/koop-provider-csv.svg?branch=master)](https://travis-ci.org/haoliangyu/koop-provider-csv)
+[![npm](https://img.shields.io/npm/v/koop-provider-csv.svg)](https://www.npmjs.com/package/koop-provider-csv) [![Build Status](https://travis-ci.org/koopjs/koop-provider-csv.svg?branch=master)](https://travis-ci.org/koopjs/koop-provider-csv)
 
 A configurable and reusable [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) provider for [Koop](http://koopjs.github.io/), created with [Koop CLI](https://github.com/koopjs/koop-cli)
 
