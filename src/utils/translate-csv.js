@@ -1,6 +1,6 @@
-function translate(csv, config) {
-  const columns = csv[0];
+function translate(data, config) {
   const metadata = config.metadata || {};
+  const columns = Object.keys(data[0]);
 
   if (metadata.idField && !columns.includes(metadata.idField)) {
     console.warn(`Specified ID field "${metadata.idField}" is not found.`);
@@ -8,12 +8,10 @@ function translate(csv, config) {
 
   return {
     type: "FeatureCollection",
-    features: csv
-      .slice(1)
-      .map(row =>
-        formatFeature(row, columns, config.geometryColumns, metadata.idField)
-      ),
-    metadata
+    features: data.map((row) =>
+      formatFeature(row, columns, config.geometryColumns, metadata.idField)
+    ),
+    metadata,
   };
 }
 
@@ -24,19 +22,21 @@ function formatFeature(values, columns, geometryColumns, idField) {
     properties: {},
     geometry: {
       type: "Point",
-      coordinates: []
-    }
+      coordinates: [],
+    },
   };
 
   for (let i = 0; i < columns.length; i++) {
+    const value = values[columns[i]];
+
     if (columns[i] === geometryColumns.longitude) {
-      feature.geometry.coordinates.unshift(values[i]);
+      feature.geometry.coordinates.unshift(value);
     } else if (columns[i] === geometryColumns.latitude) {
-      feature.geometry.coordinates.push(values[i]);
-    } else if (columns[i] == idField && !isValidId(values[i])) {
-      console.warn(`Invalid ID value: ${values[i]}`);
+      feature.geometry.coordinates.push(value);
+    } else if (columns[i] == idField && !isValidId(value)) {
+      console.warn(`Invalid ID value: ${value}`);
     } else {
-      feature.properties[columns[i]] = values[i];
+      feature.properties[columns[i]] = value;
     }
   }
 

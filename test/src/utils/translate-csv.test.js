@@ -1,22 +1,31 @@
 const test = require("tape");
 const translate = require("../../../src/utils/translate-csv");
 
-test("it should convert parsed CSV to a geojson", t => {
+test("it should convert parsed CSV to a geojson", (t) => {
   t.plan(8);
 
   const csv = [
-    ["id", "density", "latitude", "longitude"],
-    [1, 2.32, 45.67, -137],
-    [2, 5.674, 8.34, 67]
+    {
+      id: 1,
+      density: 2.32,
+      latitude: 45.67,
+      longitude: -137,
+    },
+    {
+      id: 2,
+      density: 5.674,
+      latitude: 8.34,
+      longitude: 67,
+    },
   ];
   const geojson = translate(csv, {
     geometryColumns: {
       longitude: "longitude",
-      latitude: "latitude"
+      latitude: "latitude",
     },
     metadata: {
-      idField: "id"
-    }
+      idField: "id",
+    },
   });
 
   t.equal(
