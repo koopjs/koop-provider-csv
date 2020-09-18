@@ -65,9 +65,8 @@ A configuration looks like this:
           "longitude": "longitude_column_name",
           "latitude": "latitude_column_name"
         },
-        // [optional] delimiter character
-        "delimiter": ",",
         // [optional] ArcGIS service metadata
+        // See https://koopjs.github.io/docs/development/provider/model#adding-provider-metadata-to-the-geojson
         "metadata": {
           "idField": "id_column_name"
         }
