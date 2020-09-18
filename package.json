@@ -16,11 +16,10 @@
     "csv"
   ],
   "dependencies": {
-    "autodetect-decoder-stream": "^1.0.3",
     "config": "^3.3.1",
-    "csv-reader": "^1.0.6",
     "is-url-superb": "^4.0.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "papaparse": "^5.3.0"
   },
   "devDependencies": {
     "@koopjs/cli": "^0.7.0",

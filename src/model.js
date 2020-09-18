@@ -8,8 +8,7 @@
 
 const koopConfig = require("config");
 const fs = require("fs");
-const CsvReadableStream = require("csv-reader");
-const AutoDetectDecoderStream = require("autodetect-decoder-stream");
+const Papa = require("papaparse");
 const fetch = require("node-fetch");
 const isUrl = require("is-url-superb");
 const translate = require("./utils/translate-csv");
@@ -18,7 +17,7 @@ function Model(koop) {}
 
 // Public function to return data from the
 // Return: GeoJSON FeatureCollection
-Model.prototype.getData = async function(req, callback) {
+Model.prototype.getData = async function (req, callback) {
   const config = koopConfig["koop-provider-csv"];
   const sourceId = req.params.id;
   const sourceConfig = config.sources[sourceId];
@@ -38,32 +37,23 @@ Model.prototype.getData = async function(req, callback) {
     return;
   }
 
-  readStream
-    .pipe(new AutoDetectDecoderStream())
-    .pipe(
-      CsvReadableStream({
-        trim: true,
-        parseNumbers: true,
-        parseBooleans: true,
-        delimiter: sourceConfig.delimiter || ","
-      })
-    )
-    .on(
-      "data",
-      row => {
-        csv.push(row);
-      },
-      callback
-    )
-    .on(
-      "end",
-      () => {
-        const geojson = translate(csv, sourceConfig);
+  Papa.parse(readStream, {
+    header: true,
+    dynamicTyping: true,
+    complete: function (result) {
+      if (result.errors.length > 0) {
+        callback(new Error(result.errors[0].message));
+      }
+
+      try {
+        const geojson = translate(result.data, sourceConfig);
         callback(null, geojson);
-      },
-      callback
-    )
-    .on("error", callback);
+      } catch (e) {
+        callback(e);
+      }
+    },
+    error: callback,
+  });
 };
 
 module.exports = Model;
