@@ -1,7 +1,5 @@
 # koop-provider-csv
 
-[![npm](https://img.shields.io/npm/v/koop-provider-csv.svg)](https://www.npmjs.com/package/koop-provider-csv) [![Build Status](https://travis-ci.org/koopjs/koop-provider-csv.svg?branch=master)](https://travis-ci.org/koopjs/koop-provider-csv)
-
 A configurable and reusable [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) provider for [Koop](http://koopjs.github.io/), created with [Koop CLI](https://github.com/koopjs/koop-cli)
 
 This provider can load a CSV file from a local path or a remote endpoint. The provided CSV file must include columns of latitude and longitude coordinates.
@@ -18,13 +16,13 @@ This provider can load a CSV file from a local path or a remote endpoint. The pr
 
 with npm
 
-``` bash
+```bash
 npm install koop-provider-csv
 ```
 
 with [Koop CLI](https://github.com/koopjs/koop-cli) for your Koop app
 
-``` bash
+```bash
 koop add provider koop-provider-csv
 ```
 
