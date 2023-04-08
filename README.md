@@ -9,6 +9,7 @@ This provider can load a CSV file from a local path or a remote endpoint. The pr
 - fully configurable
 - support multiple CSV sources
 - support local file path or remote endpoint
+- support multiple CSV files for a single source
 - parse boolean and numeric values automatically
 - stream processing
 
@@ -56,8 +57,10 @@ A configuration looks like this:
     "sources": {
       // a unique ID for each source, which is used in the query route
       "my-csv": {
-        // [required] a file path or a URL for the source CSV
-        "url": "path_to_csv",
+        // [optional] a URL for the source CSV
+        "url": "url_to_csv",
+        // [optional] a file path or a glob pattern to local CSV file(s)
+        "path": "path_to_csv",
         // [required] point coordinate columns
         "geometryColumns": {
           "longitude": "longitude_column_name",
@@ -75,7 +78,7 @@ A configuration looks like this:
 
 ```
 
-See `config/example.json` for a full example.
+See `config/example-with-path.json` or `config/example-with-url.json` for full example configurations.
 
 ## Development
 
