@@ -12,7 +12,60 @@ const fs = require("fs");
 const path = require("path");
 const { Readable } = require("stream");
 
-test("it should send a request for a URL", t => {
+test("it should throw an error if no path or url is provided", (t) => {
+  t.plan(2);
+
+  const config = {
+    "koop-provider-csv": {
+      name: "csv",
+      sources: {
+        test: {},
+      },
+    },
+  };
+
+  const Model = proxyquire("../../src/model", {
+    config,
+  });
+  const model = new Model();
+
+  model.getData({ params: { id: "test" } }, (err, geojson) => {
+    t.ok(err, "has error");
+    t.notok(geojson, "geojson does not exist");
+  });
+});
+
+test("it should throw an error if both path and url are provided", (t) => {
+  t.plan(2);
+
+  const config = {
+    "koop-provider-csv": {
+      name: "csv",
+      sources: {
+        test: {
+          url: "http://test.com/test.csv",
+          path: "./test.csv",
+          geometryColumns: {
+            longitude: "longitude",
+            latitude: "latitude",
+          },
+        },
+      },
+    },
+  };
+
+  const Model = proxyquire("../../src/model", {
+    config,
+  });
+  const model = new Model();
+
+  model.getData({ params: { id: "test" } }, (err, geojson) => {
+    t.ok(err, "has error");
+    t.notok(geojson, "geojson does not exist");
+  });
+});
+
+test("it should send a request for a URL", (t) => {
   t.plan(3);
 
   const config = {
@@ -23,14 +76,14 @@ test("it should send a request for a URL", t => {
           url: "http://my-site.com/points.csv",
           geometryColumns: {
             longitude: "longitude",
-            latitude: "latitude"
+            latitude: "latitude",
           },
           metadata: {
-            idField: "id"
-          }
-        }
-      }
-    }
+            idField: "id",
+          },
+        },
+      },
+    },
   };
 
   const csv = fs.readFileSync(
@@ -48,7 +101,7 @@ test("it should send a request for a URL", t => {
 
   const Model = proxyquire("../../src/model", {
     "node-fetch": fetch,
-    config
+    config,
   });
   const model = new Model();
 
@@ -63,7 +116,7 @@ test("it should send a request for a URL", t => {
   });
 });
 
-test("it should load the local file for a file path with .csv", t => {
+test("it should load the local file for a file path with .csv using the 'url' property", (t) => {
   t.plan(3);
 
   const config = {
@@ -74,18 +127,18 @@ test("it should load the local file for a file path with .csv", t => {
           url: path.join(__dirname, "../fixtures/points.csv"),
           geometryColumns: {
             longitude: "longitude",
-            latitude: "latitude"
+            latitude: "latitude",
           },
           metadata: {
-            idField: "id"
-          }
-        }
-      }
-    }
+            idField: "id",
+          },
+        },
+      },
+    },
   };
 
   const Model = proxyquire("../../src/model", {
-    config
+    config,
   });
   const model = new Model();
 
@@ -100,7 +153,7 @@ test("it should load the local file for a file path with .csv", t => {
   });
 });
 
-test("it should load the local file for a file path with .CSV", t => {
+test("it should load the local file for a file path with .CSV using the 'url' property", (t) => {
   t.plan(3);
 
   const config = {
@@ -108,21 +161,21 @@ test("it should load the local file for a file path with .CSV", t => {
       name: "csv",
       sources: {
         test: {
-          url: path.join(__dirname, "../fixtures/points.csv"),
+          url: path.join(__dirname, "../fixtures/points.CSV"),
           geometryColumns: {
             longitude: "longitude",
-            latitude: "latitude"
+            latitude: "latitude",
           },
           metadata: {
-            idField: "id"
-          }
-        }
-      }
-    }
+            idField: "id",
+          },
+        },
+      },
+    },
   };
 
   const Model = proxyquire("../../src/model", {
-    config
+    config,
   });
   const model = new Model();
 
@@ -133,6 +186,82 @@ test("it should load the local file for a file path with .CSV", t => {
       "FeatureCollection",
       "creates a feature collection object"
     );
+    t.ok(geojson.features, "has features");
+  });
+});
+
+test("it should load a single file with a glob pattern", (t) => {
+  t.plan(4);
+
+  const config = {
+    "koop-provider-csv": {
+      name: "csv",
+      sources: {
+        test: {
+          path: path.join(__dirname, "../fixtures/points.csv"),
+          geometryColumns: {
+            longitude: "longitude",
+            latitude: "latitude",
+          },
+          metadata: {
+            idField: "id",
+          },
+        },
+      },
+    },
+  };
+
+  const Model = proxyquire("../../src/model", {
+    config,
+  });
+  const model = new Model();
+
+  model.getData({ params: { id: "test" } }, (err, geojson) => {
+    t.error(err, "no error");
+    t.equal(
+      geojson.type,
+      "FeatureCollection",
+      "creates a feature collection object"
+    );
+    t.equal(geojson.features.length, 2, "only one file is loaded");
+    t.ok(geojson.features, "has features");
+  });
+});
+
+test("it should load multiple files with a glob pattern", (t) => {
+  t.plan(4);
+
+  const config = {
+    "koop-provider-csv": {
+      name: "csv",
+      sources: {
+        test: {
+          path: path.join(__dirname, "../fixtures/*.csv"),
+          geometryColumns: {
+            longitude: "longitude",
+            latitude: "latitude",
+          },
+          metadata: {
+            idField: "id",
+          },
+        },
+      },
+    },
+  };
+
+  const Model = proxyquire("../../src/model", {
+    config,
+  });
+  const model = new Model();
+
+  model.getData({ params: { id: "test" } }, (err, geojson) => {
+    t.error(err, "no error");
+    t.equal(
+      geojson.type,
+      "FeatureCollection",
+      "creates a feature collection object"
+    );
+    t.equal(geojson.features.length, 4, "multiple files are loaded");
     t.ok(geojson.features, "has features");
   });
 });
